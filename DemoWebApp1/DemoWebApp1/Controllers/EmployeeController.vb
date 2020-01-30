@@ -1,64 +1,89 @@
 ﻿Imports System.Data.Entity
 Imports System.Net
 Imports DemoWebApp1.DAL
+Imports DemoWebApp1.Business
 Imports DemoWebApp1.Models
+Imports DemoWebApp1.ViewModels
 
 Namespace Controllers
     Public Class EmployeeController
         Inherits System.Web.Mvc.Controller
 
         Private db As New EmployeeContext
+        Private empLogic As New EmpLogic(db)
 
         ' GET: /Employee/
-        Function List() As ActionResult
+        Function Index() As ActionResult
             ViewData("Message") = "List All members"
 
-            Return View(db.Employees.ToList())
+            Return View(empLogic.GetListEmp)
         End Function
 
-        ' GET: /Student/Details/1
+        ' GET: /Employee/Details/1
         Function Detail(ByVal id As Integer?) As ActionResult
             If IsNothing(id) Then
                 Return New HttpStatusCodeResult(HttpStatusCode.BadRequest)
             End If
-            Dim emp As Employee = db.Employees.Find(id)
+
+            Dim emp As Employee = empLogic.FindEmp(id)
+
+            ' Get data for dropdownlist
+            ViewBag.model1 = empLogic.GetListBranchBindCbx
+            ViewBag.model2 = empLogic.GetListJobTitleBindCbx
+
             If IsNothing(emp) Then
                 Return HttpNotFound()
             End If
+
             Return View(emp)
         End Function
 
-        ' GET: /Student/Create
+        ' GET: /Employee/Create
         Function Create() As ActionResult
+            'Dim vmEmp As ViewModelEmp = New ViewModelEmp(Me.db)
+
+            ' Get data for dropdownlist
+            empLogic.Employee = New Employee
+            ViewBag.model1 = empLogic.GetListBranchBindCbx
+            ViewBag.model2 = empLogic.GetListJobTitleBindCbx
+
             Return View()
         End Function
 
-        ' POST: /Student/Create
+        ' POST: /Employee/Create
         <HttpPost()>
         <ValidateAntiForgeryToken()>
-        Function Create(<Bind(Include:="FirstName,LastName,Gender,Birthday,Age,Address,Career,Hobby")> ByVal emp As Employee) As ActionResult
+        Function Create(<Bind(Include:="Code,FirstName,LastName,BranchID,JobTitleID")> ByVal emp As Employee,
+                        <Bind(Include:="Gender,Birthday,Age,Address,Status,Hobby")> ByVal detail As PersonalInfo) As ActionResult
             Try
                 If ModelState.IsValid Then
-                    db.Employees.Add(emp)
-                    db.SaveChanges()
-                    Return RedirectToAction("List")
+                    empLogic.AddEmp(emp, detail)
+
+                    Return RedirectToAction("Index")
                 End If
             Catch dex As DataException
                 'Log the error (add a line here to write a log)
-                ModelState.AddModelError("", "Unable to save changes. Try again, and of the problem persists see your system administrator. ")
+                ModelState.AddModelError("", "Unable to save changes. Please confirm and try again later. ")
             End Try
             Return View(emp)
         End Function
 
-        ' GET: /Student/Edit/1
+        ' GET: /Employee/Edit/1
         Function Edit(ByVal id As Integer?) As ActionResult
             If IsNothing(id) Then
                 Return New HttpStatusCodeResult(HttpStatusCode.BadRequest)
             End If
-            Dim emp As Employee = db.Employees.Find(id)
+
+            Dim emp As Employee = empLogic.FindEmp(id)
+
+            ' Get data for dropdownlist
+            ViewBag.model1 = empLogic.GetListBranchBindCbx
+            ViewBag.model2 = empLogic.GetListJobTitleBindCbx
+
             If IsNothing(emp) Then
                 Return HttpNotFound()
             End If
+
             Return View(emp)
         End Function
 
@@ -69,23 +94,27 @@ Namespace Controllers
             If id Is Nothing Then
                 Return New HttpStatusCodeResult(HttpStatusCode.BadRequest)
             End If
-            Dim empForUpd = db.Employees.Find(id)
+
+            Dim empForUpd = empLogic.FindEmp(id)
+            Dim detailForUpd = empLogic.FindEmpDetail(id)
             If TryUpdateModel(empForUpd, "", New String() {
-                              "FirstName", "LastName", "Gender", "Birthday", "Age",
-                              "Address", "Career", "Hobby"}) Then
+                              "Code", "FirstName", "LastName", "BranchID", "JobTitleID"}) And
+                TryUpdateModel(detailForUpd, "Detail", New String() {
+                              "Gender", "Birthday", "Age", "Address", "Status", "Hobby"}) Then
                 Try
-                    db.Entry(empForUpd).State = EntityState.Modified
-                    db.SaveChanges()
-                    Return RedirectToAction("List")
+                    empLogic.UpdateEmp(empForUpd, detailForUpd)
+
+                    Return RedirectToAction("Index")
                 Catch Dex As DataException
                     'Log the error (uncomment dex variable name and add a line here to write a log.
-                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.")
+                    ModelState.AddModelError("", "Unable to save changes. Please confirm and try again later.")
                 End Try
             End If
+
             Return View(empForUpd)
         End Function
 
-        ' GET: /Student/Delete/1
+        ' GET: /Employee/Delete/1
         Function Delete(ByVal id As Integer?, Optional ByVal saveChangesError As Boolean? = False) As ActionResult
             If IsNothing(id) Then
                 Return New HttpStatusCodeResult(HttpStatusCode.BadRequest)
@@ -93,34 +122,32 @@ Namespace Controllers
             If saveChangesError.GetValueOrDefault() Then
                 ViewBag.Message = "Delete failed. Try again, and if the problem persists see your system administrator."
             End If
-            Dim emp As Employee = db.Employees.Find(id)
+            Dim emp As Employee = empLogic.FindEmp(id)
             If IsNothing(emp) Then
                 Return HttpNotFound()
             End If
             Return View(emp)
         End Function
 
-        ' POST: /Student/Delete/1
+        ' POST: /Employee/Delete/1
         <HttpPost()>
         <ActionName("Delete")>
         <ValidateAntiForgeryToken()>
         Function Delete(ByVal id As Integer) As ActionResult
             Try
-                Dim emp As Employee = db.Employees.Find(id)
-                db.Employees.Remove(emp)
-                db.SaveChanges()
+                empLogic.DeleteEmp(id)
             Catch dex As DataException
                 'Log the error (uncomment dex variable name and add a line here to write a log.
                 Return RedirectToAction("Delete", New With {.id = id, .saveChangesError = True})
             End Try
-            Return RedirectToAction("List")
+            Return RedirectToAction("Index")
         End Function
 
         Protected Overrides Sub Dispose(ByVal disposing As Boolean)
-            'If (disposing) Then
-            '    db.Dispose()
-            'End If
-            'MyBase.Dispose(disposing)
+            If (disposing) Then
+                db.Dispose()
+            End If
+            MyBase.Dispose(disposing)
         End Sub
     End Class
 End Namespace

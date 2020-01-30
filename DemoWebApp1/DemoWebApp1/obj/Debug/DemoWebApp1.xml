@@ -1,0 +1,54 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+DemoWebApp1
+</name>
+</assembly>
+<members>
+<member name="M:DemoWebApp1.Business.EmpLogic.GetListEmp">
+ <summary>
+ Get all data of Employee
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:DemoWebApp1.Business.EmpLogic.GetListBranchBindCbx">
+ <summary>
+ Get all data of Branch for binding Dropdownlist
+ </summary>
+ <returns>List of object</returns>
+</member>
+<member name="M:DemoWebApp1.Business.EmpLogic.GetListJobTitleBindCbx">
+ <summary>
+ Get all data of JobTitle for binding Dropdownlist
+ </summary>
+ <returns>List object</returns>
+</member>
+<member name="M:DemoWebApp1.Business.EmpLogic.FindEmp(System.Int32)">
+ <summary>
+ Get Employee info by Id
+ </summary>
+ <param name="empId"></param>
+ <returns></returns>
+</member>
+<member name="M:DemoWebApp1.Business.EmpLogic.AddEmp(DemoWebApp1.Models.Employee,DemoWebApp1.Models.PersonalInfo)">
+ <summary>
+ Add new Employee and PersonalInfo as related info
+ </summary>
+ <param name="emp"></param>
+ <param name="empDetail"></param>
+</member>
+<member name="M:DemoWebApp1.Business.EmpLogic.DeleteEmp(System.Int32)">
+ <summary>
+ Delete Employee by Id
+ </summary>
+ <param name="empId"></param>
+</member>
+<member name="M:DemoWebApp1.Business.EmpLogic.LoadEmployee(System.Int32)">
+ <summary>
+ Find Employee info then bind to internal class object
+ </summary>
+ <param name="empId"></param>
+</member>
+</members>
+</doc>

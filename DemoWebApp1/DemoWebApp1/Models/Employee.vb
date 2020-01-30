@@ -1,14 +1,29 @@
-﻿Namespace Models
+﻿Imports System.ComponentModel.DataAnnotations
+
+Namespace Models
     Public Class Employee
-        Public Property Id As Integer
+        Public Property ID As Integer
+        <Required>
+        <MaxLength(20)>
         Public Property Code As String
+        <Required>
+        <MaxLength(100)>
         Public Property FirstName As String
+        <MaxLength(100)>
         Public Property LastName As String
-        Public Property Gender As Integer
-        Public Property Birthday As Date
-        Public Property Age As Integer
-        Public Property Address As String
-        Public Property Career As String
-        Public Property Hobby As String
+        <DefaultSettingValue("GETDATE()")>
+        Public Property StartDate As Date?
+        Public Property RetireDate As Date?
+
+        <DefaultSettingValue("False")>
+        Public Property IsActive As Boolean
+
+        Public Overridable Property Detail As PersonalInfo
+
+        Public Property JobTitleID As Integer
+        Public Overridable Property JobTitle As JobTitle
+
+        Public Property BranchID As Integer
+        Public Overridable Property Branch As Branch
     End Class
 End Namespace

@@ -13,66 +13,91 @@ End Code
         <hr />
         @Html.ValidationSummary(True)
         <div class="form-group">
+            @Html.LabelFor(Function(model) model.Code, New With {.class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.EditorFor(Function(model) model.Code, New With {.htmlAttributes = New With {.class = "form-control"}})
+                @Html.ValidationMessageFor(Function(model) model.Code, "", New With {.class = "text-danger"})
+            </div>
+        </div>
+
+        <div class="form-group">
             @Html.LabelFor(Function(model) model.FirstName, New With {.class = "control-label col-md-2"})
             <div class="col-md-10">
-                @Html.EditorFor(Function(model) model.FirstName)
-                @Html.ValidationMessageFor(Function(model) model.FirstName)
+                @Html.EditorFor(Function(model) model.FirstName, New With {.htmlAttributes = New With {.class = "form-control"}})
+                @Html.ValidationMessageFor(Function(model) model.FirstName, "", New With {.class = "text-danger"})
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(Function(model) model.LastName, New With {.class = "control-label col-md-2"})
             <div class="col-md-10">
-                @Html.EditorFor(Function(model) model.LastName)
-                @Html.ValidationMessageFor(Function(model) model.LastName)
+                @Html.EditorFor(Function(model) model.LastName, New With {.htmlAttributes = New With {.class = "form-control"}})
+                @Html.ValidationMessageFor(Function(model) model.LastName, "", New With {.class = "text-danger"})
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(Function(model) model.Gender, New With {.class = "control-label col-md-2"})
+            @Html.LabelFor(Function(model) model.Detail.Gender, New With {.class = "control-label col-md-2"})
             <div class="col-md-10">
-                @Html.EditorFor(Function(model) model.Gender)
-                @Html.ValidationMessageFor(Function(model) model.Gender)
+                @Html.RadioButtonFor(Function(model) model.Detail.Gender, "Male", New With {.id = "male"})
+                @Html.Label("male", "Male", New With {.htmlAttributes = New With {.class = "form-control"}})
+                @Html.RadioButtonFor(Function(model) model.Detail.Gender, "Female", New With {.id = "female"})
+                @Html.Label("female", "Female", New With {.htmlAttributes = New With {.class = "form-control"}})
+                @Html.ValidationMessageFor(Function(model) model.Detail.Gender, "", New With {.class = "text-danger"})
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(Function(model) model.Birthday, New With {.class = "control-label col-md-2"})
+            @Html.LabelFor(Function(model) model.Detail.Birthday, New With {.class = "control-label col-md-2"})
             <div class="col-md-10">
-                @Html.EditorFor(Function(model) model.Birthday)
-                @Html.ValidationMessageFor(Function(model) model.Birthday)
+                @Html.EditorFor(Function(model) model.Detail.Birthday, New With {.htmlAttributes = New With {.class = "form-control datepicker"}})
+                @Html.ValidationMessageFor(Function(model) model.Detail.Birthday, "", New With {.class = "text-danger"})
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(Function(model) model.Age, New With {.class = "control-label col-md-2"})
+            @Html.LabelFor(Function(model) model.Detail.Age, New With {.class = "control-label col-md-2"})
             <div class="col-md-10">
-                @Html.EditorFor(Function(model) model.Age)
-                @Html.ValidationMessageFor(Function(model) model.Age)
+                @Html.EditorFor(Function(model) model.Detail.Age, New With {.htmlAttributes = New With {.class = "form-control"}})
+                @Html.ValidationMessageFor(Function(model) model.Detail.Age, "", New With {.class = "text-danger"})
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(Function(model) model.Address, New With {.class = "control-label col-md-2"})
+            @Html.LabelFor(Function(model) model.Detail.Address, New With {.class = "control-label col-md-2"})
             <div class="col-md-10">
-                @Html.EditorFor(Function(model) model.Address)
-                @Html.ValidationMessageFor(Function(model) model.Address)
+                @Html.EditorFor(Function(model) model.Detail.Address, New With {.htmlAttributes = New With {.class = "form-control"}})
+                @Html.ValidationMessageFor(Function(model) model.Detail.Address, "", New With {.class = "text-danger"})
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(Function(model) model.Career, New With {.class = "control-label col-md-2"})
+            @Html.LabelFor(Function(model) model.Detail.Status, New With {.class = "control-label col-md-2"})
             <div class="col-md-10">
-                @Html.EditorFor(Function(model) model.Career)
-                @Html.ValidationMessageFor(Function(model) model.Career)
+                @Html.DropDownListFor(Function(model) model.Detail.Status, EnumHelper.GetSelectList(GetType(DemoWebApp1.Models.StatusEnum)), "-- SELECT --", New With {.class = "form-control"})
+                @Html.ValidationMessageFor(Function(model) model.Detail.Status, "", New With {.class = "text-danger"})
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(Function(model) model.Hobby, New With {.class = "control-label col-md-2"})
+            @Html.LabelFor(Function(model) model.Detail.Hobby, New With {.class = "control-label col-md-2"})
             <div class="col-md-10">
-                @Html.EditorFor(Function(model) model.Hobby)
-                @Html.ValidationMessageFor(Function(model) model.Hobby)
+                @Html.EditorFor(Function(model) model.Detail.Hobby, New With {.htmlAttributes = New With {.class = "form-control"}})
+                @Html.ValidationMessageFor(Function(model) model.Detail.Hobby, "", New With {.class = "text-danger"})
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(Function(model) model.BranchID, htmlAttributes:=New With {.class = "control-label col-sm-2"})
+            <div class="col-sm-10">
+                @Html.DropDownListFor(Function(model) model.BranchID, DirectCast(ViewBag.model1, IEnumerable(Of SelectListItem)), "-- SELECT --", New With {.class = "form-control"})
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(Function(model) model.JobTitleID, htmlAttributes:=New With {.class = "control-label col-sm-2"})
+            <div class="col-sm-10">
+                @Html.DropDownListFor(Function(model) model.JobTitleID, DirectCast(ViewBag.model2, IEnumerable(Of SelectListItem)), "-- SELECT --", New With {.class = "form-control"})
             </div>
         </div>
 
@@ -85,9 +110,18 @@ End Code
 End Using
 
 <div>
-    @Html.ActionLink("Back to List", "List")
+    @Html.ActionLink("Back to List", "Index")
 </div>
 
-@Section Scripts 
+@Section Scripts
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+        $(function () { // will trigger when the document is ready
+            $('.datepicker').datepicker({
+                language: "ja",
+                todayHighlight: true
+            }); //Initialise any date pickers
+        });
+    </script>
 End Section

@@ -11,6 +11,14 @@ End Code
     <hr />
     <dl class="dl-horizontal">
         <dt>
+        @Html.DisplayNameFor(Function(model) model.Code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(Function(model) model.Code)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(Function(model) model.FirstName)
         </dt>
 
@@ -27,11 +35,11 @@ End Code
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(Function(model) model.Gender)
+            @Html.DisplayNameFor(Function(model) model.Detail.Gender)
         </dt>
 
         <dd>
-            @Html.DisplayFor(Function(model) model.Gender)
+            @Html.DisplayFor(Function(model) model.Detail.Gender)
         </dd>
 
     </dl>
@@ -40,7 +48,7 @@ End Code
 
         @<div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "List")
+            @Html.ActionLink("Back to List", "Index")
         </div>
     End Using
 </div>

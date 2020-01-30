@@ -10,6 +10,14 @@ End Code
     <hr />
     <dl class="dl-horizontal">
         <dt>
+            @Html.DisplayNameFor(Function(model) model.Code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(Function(model) model.Code)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(Function(model) model.FirstName)
         </dt>
 
@@ -26,45 +34,45 @@ End Code
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(Function(model) model.Gender)
+            @Html.DisplayNameFor(Function(model) model.Detail.Gender)
         </dt>
 
         <dd>
-            @Html.DisplayFor(Function(model) model.Gender)
+            @Html.DisplayFor(Function(model) model.Detail.Gender)
         </dd>
         <dt>
-            @Html.DisplayNameFor(Function(model) model.Birthday)
+            @Html.DisplayNameFor(Function(model) model.Detail.Birthday)
         </dt>
         <dd>
-            @Html.DisplayFor(Function(model) model.Birthday)
+            @Html.DisplayFor(Function(model) model.Detail.Birthday)
         </dd>
         <dt>
-            @Html.DisplayNameFor(Function(model) model.Age)
+            @Html.DisplayNameFor(Function(model) model.Detail.Age)
         </dt>
         <dd>
-            @Html.DisplayFor(Function(model) model.Age)
+            @Html.DisplayFor(Function(model) model.Detail.Age)
         </dd>
         <dt>
-            @Html.DisplayNameFor(Function(model) model.Address)
+            @Html.DisplayNameFor(Function(model) model.Detail.Address)
         </dt>
         <dd>
-            @Html.DisplayFor(Function(model) model.Address)
+            @Html.DisplayFor(Function(model) model.Detail.Address)
         </dd>
         <dt>
-            @Html.DisplayNameFor(Function(model) model.Career)
+            @Html.DisplayNameFor(Function(model) model.Detail.Status)
         </dt>
         <dd>
-            @Html.DisplayFor(Function(model) model.Career)
+            @Html.DisplayFor(Function(model) model.Detail.Status)
         </dd>
         <dt>
-            @Html.DisplayNameFor(Function(model) model.Hobby)
+            @Html.DisplayNameFor(Function(model) model.Detail.Hobby)
         </dt>
         <dd>
-            @Html.DisplayFor(Function(model) model.Hobby)
+            @Html.DisplayFor(Function(model) model.Detail.Hobby)
         </dd>
     </dl>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", New With {.id = Model.Id}) |
-    @Html.ActionLink("Back to List", "List")
+    @Html.ActionLink("Back to List", "Index")
 </p>
